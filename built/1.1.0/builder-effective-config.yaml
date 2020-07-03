@@ -1,0 +1,5 @@
+directories:
+  output: electron
+  buildResources: build
+appId: geoffcox.swago
+electronVersion: 6.1.9
