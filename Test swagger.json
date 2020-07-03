@@ -1,0 +1,4253 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "LUIS Programmatic APIs",
+    "version": "4.0-preview"
+  },
+  "x-ms-parameterized-host": {
+    "hostTemplate": "{Endpoint}/luis/api/v4.0-preview",
+    "useSchemePrefix": false,
+    "parameters": [
+      {
+        "$ref": "#/parameters/Endpoint"
+      }
+    ]
+  },
+  "securityDefinitions": {
+    "apiKeyHeader": {
+      "type": "apiKey",
+      "name": "Ocp-Apim-Subscription-Key",
+      "in": "header"
+    }
+  },
+  "security": [
+    {
+      "apiKeyHeader": []
+    }
+  ],
+  "paths": {
+    "/conversations/v4.0-preview/azureaccounts": {
+      "get": {
+        "description": "Gets the LUIS azure accounts assigned to the application for the user using his ARM token.",
+        "operationId": "AzureAccounts_GetUserAzureAccountsInformation",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "ArmToken",
+            "description": "The custom arm token header to use; containing the user's ARM token used to validate azure accounts information.",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A List of azure account information objects.",
+            "schema": {
+              "$ref": "#/definitions/GetAzureAccountsList"
+            }
+          },
+          "400": {
+            "description": "This error can be returned if the request's parameters are incorrect meaning the required parameters are missing, malformed, or too large.\\r\\n\\r\\nThis error can be returned if the request's body is incorrect meaning the JSON is missing, malformed, or too large."
+          },
+          "401": {
+            "description": "You do not have access. \\r\\n\\r\\nReasons can include:\\r\\n\\r\\n* used endpoint subscription key, instead of authoring key\\r\\n* invalid, malformed, or empty authoring key\\r\\n* authoring key doesn't match region\\r\\n* you are not the owner or collaborator\\r\\n* invalid order of API calls."
+          },
+          "403": {
+            "description": "Total monthly key quota limit exceeded."
+          },
+          "429": {
+            "description": "Rate limit is exceeded."
+          }
+        }
+      }
+    }       
+  },
+  "definitions": {
+    "GetAzureAccountsList": {
+      "required": [
+        "accounts"
+      ],
+      "type": "object",
+      "properties": {
+        "accounts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/GetAzureAccount"
+          }
+        }
+      }
+    },
+    "GetAzureAccount": {
+      "required": [
+        "kind",
+        "location",
+        "azureSubscriptionId",
+        "resourceGroup",
+        "accountName"
+      ],
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "string"
+        },
+        "location": {
+          "type": "string"
+        },
+        "azureSubscriptionId": {
+          "format": "uuid",
+          "type": "string",
+          "example": "00000000-0000-0000-0000-000000000000"
+        },
+        "resourceGroup": {
+          "type": "string"
+        },
+        "accountName": {
+          "type": "string"
+        }
+      }
+    },
+    "AzureAccountInfo": {
+      "required": [
+        "azureSubscriptionId",
+        "resourceGroup",
+        "accountName"
+      ],
+      "type": "object",
+      "properties": {
+        "azureSubscriptionId": {
+          "format": "uuid",
+          "type": "string",
+          "example": "00000000-0000-0000-0000-000000000000"
+        },
+        "resourceGroup": {
+          "type": "string"
+        },
+        "accountName": {
+          "type": "string"
+        }
+      }
+    },
+    "CreateApplication-Conversations": {
+      "description": "An application create object payload",
+      "required": [
+        "culture",
+        "tokenizerVersion",
+        "appType"
+      ],
+      "type": "object",
+      "properties": {
+        "initialVersionId": {
+          "type": "string"
+        },
+        "isReadonly": {
+          "type": "boolean"
+        },
+        "culture": {
+          "type": "string"
+        },
+        "usageScenario": {
+          "type": "string"
+        },
+        "domain": {
+          "type": "string"
+        },
+        "tokenizerVersion": {
+          "type": "string"
+        },
+        "appType": {
+          "type": "string"
+        },
+        "name": {
+          "description": "Represents the new name of the application",
+          "type": "string"
+        },
+        "description": {
+          "description": "Represents the new description of the application",
+          "type": "string"
+        }
+      }
+    },
+    "GetApplication-Conversations": {
+      "required": [
+        "endpoints",
+        "versionsCount",
+        "activeVersion",
+        "id",
+        "createdDateTime",
+        "endpointHitsCount",
+        "ownerEmail",
+        "culture",
+        "tokenizerVersion",
+        "appType"
+      ],
+      "type": "object",
+      "properties": {
+        "endpoints": {
+          "$ref": "#/definitions/ApplicationPublishInformation-Conversations"
+        },
+        "versionsCount": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "activeVersion": {
+          "type": "string"
+        },
+        "id": {
+          "format": "uuid",
+          "type": "string",
+          "example": "00000000-0000-0000-0000-000000000000"
+        },
+        "createdDateTime": {
+          "type": "string"
+        },
+        "endpointHitsCount": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "ownerEmail": {
+          "type": "string"
+        },
+        "culture": {
+          "type": "string"
+        },
+        "usageScenario": {
+          "type": "string"
+        },
+        "domain": {
+          "type": "string"
+        },
+        "tokenizerVersion": {
+          "type": "string"
+        },
+        "appType": {
+          "type": "string"
+        },
+        "name": {
+          "description": "Represents the new name of the application",
+          "type": "string"
+        },
+        "description": {
+          "description": "Represents the new description of the application",
+          "type": "string"
+        }
+      }
+    },
+    "ApplicationPublishInformation-Conversations": {
+      "required": [
+        "slots",
+        "versions"
+      ],
+      "type": "object",
+      "properties": {
+        "slots": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/ApplicationSlotPublishInformation-Conversations"
+          }
+        },
+        "versions": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/ApplicationVersionPublishInformation-Conversations"
+          }
+        }
+      }
+    },
+    "ApplicationSlotPublishInformation-Conversations": {
+      "required": [
+        "versionId",
+        "endpointUrl",
+        "publishedDateTime"
+      ],
+      "type": "object",
+      "properties": {
+        "versionId": {
+          "type": "string"
+        },
+        "endpointRegion": {
+          "type": "string"
+        },
+        "endpointUrl": {
+          "type": "string"
+        },
+        "publishedDateTime": {
+          "type": "string"
+        }
+      }
+    },
+    "ApplicationVersionPublishInformation-Conversations": {
+      "required": [
+        "versionId",
+        "endpointUrl",
+        "publishedDateTime"
+      ],
+      "type": "object",
+      "properties": {
+        "versionId": {
+          "type": "string"
+        },
+        "endpointRegion": {
+          "type": "string"
+        },
+        "endpointUrl": {
+          "type": "string"
+        },
+        "publishedDateTime": {
+          "type": "string"
+        }
+      }
+    },
+    "CreateApplicationPrebuiltDomain-Conversations": {
+      "required": [
+        "culture",
+        "domainName"
+      ],
+      "type": "object",
+      "properties": {
+        "culture": {
+          "type": "string"
+        },
+        "tokenizerVersion": {
+          "type": "string"
+        },
+        "domainName": {
+          "type": "string"
+        }
+      }
+    },
+    "JsonAppObject": {
+      "required": [
+        "intents",
+        "entities",
+        "composites",
+        "closedLists",
+        "prebuiltEntities",
+        "utterances",
+        "phraselists",
+        "versionId",
+        "name",
+        "desc",
+        "culture",
+        "tokenizerVersion",
+        "patternAnyEntities",
+        "regex_entities",
+        "regex_features",
+        "patterns",
+        "settings"
+      ],
+      "type": "object",
+      "properties": {
+        "LuisSchemaVersion": {
+          "type": "string"
+        },
+        "intents": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/JsonModelObject"
+          }
+        },
+        "entities": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/JsonModelObject"
+          }
+        },
+        "composites": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/JsonModelObject"
+          }
+        },
+        "closedLists": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/JsonModelObject"
+          }
+        },
+        "prebuiltEntities": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/JsonModelObject"
+          }
+        },
+        "utterances": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/JsonExampleObject"
+          }
+        },
+        "phraselists": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/JsonPhraseListObject"
+          }
+        },
+        "versionId": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "desc": {
+          "type": "string"
+        },
+        "culture": {
+          "type": "string"
+        },
+        "tokenizerVersion": {
+          "type": "string"
+        },
+        "patternAnyEntities": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/JsonModelObject"
+          }
+        },
+        "regex_entities": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/JsonModelObject"
+          }
+        },
+        "regex_features": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/JsonPatternFeatureObject"
+          }
+        },
+        "patterns": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/JsonPatternObject"
+          }
+        },
+        "settings": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/JsonSettingObject"
+          }
+        }
+      }
+    },
+    "JsonModelObject": {
+      "required": [
+        "name",
+        "children",
+        "inherits",
+        "subLists",
+        "regexPattern",
+        "roles",
+        "serviceConnections",
+        "explicitList",
+        "features"
+      ],
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "children": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/JsonChild"
+          }
+        },
+        "inherits": {
+          "$ref": "#/definitions/JsonPrebuiltDomainObject"
+        },
+        "subLists": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/JsonSubClosedListObject"
+          }
+        },
+        "regexPattern": {
+          "type": "string"
+        },
+        "roles": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "serviceConnections": {
+          "$ref": "#/definitions/JsonServiceConnectionsObject"
+        },
+        "explicitList": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "features": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/JsonModelRelationObject"
+          }
+        }
+      }
+    },
+    "JsonChild": {
+      "required": [
+        "name",
+        "children",
+        "features"
+      ],
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "instanceOf": {
+          "type": "string"
+        },
+        "children": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/JsonChild"
+          }
+        },
+        "features": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/JsonModelRelationObject"
+          }
+        }
+      }
+    },
+    "JsonModelRelationObject": {
+      "required": [
+        "featureName",
+        "modelName",
+        "isActive"
+      ],
+      "type": "object",
+      "properties": {
+        "featureName": {
+          "type": "string"
+        },
+        "modelName": {
+          "type": "string"
+        },
+        "isActive": {
+          "type": "boolean"
+        }
+      }
+    },
+    "JsonPrebuiltDomainObject": {
+      "required": [
+        "domain_name",
+        "model_name"
+      ],
+      "type": "object",
+      "properties": {
+        "domain_name": {
+          "type": "string"
+        },
+        "model_name": {
+          "type": "string"
+        }
+      }
+    },
+    "JsonSubClosedListObject": {
+      "required": [
+        "canonicalForm",
+        "list"
+      ],
+      "type": "object",
+      "properties": {
+        "canonicalForm": {
+          "type": "string"
+        },
+        "list": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "JsonServiceConnectionsObject": {
+      "required": [
+        "type",
+        "appName",
+        "appId",
+        "appVersion",
+        "slotName",
+        "region",
+        "luisIncludedIntentNames",
+        "endpointKey",
+        "subscriptionKey",
+        "hostName"
+      ],
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "appName": {
+          "type": "string"
+        },
+        "appId": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "appVersion": {
+          "type": "string"
+        },
+        "slotName": {
+          "type": "string"
+        },
+        "region": {
+          "type": "string"
+        },
+        "luisIncludedIntentNames": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "endpointKey": {
+          "type": "string"
+        },
+        "subscriptionKey": {
+          "type": "string"
+        },
+        "hostName": {
+          "type": "string"
+        }
+      }
+    },
+    "JsonExampleObject": {
+      "required": [
+        "text",
+        "intent",
+        "entities"
+      ],
+      "type": "object",
+      "properties": {
+        "text": {
+          "type": "string"
+        },
+        "intent": {
+          "type": "string"
+        },
+        "entities": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/JsonEntityObject"
+          }
+        }
+      }
+    },
+    "JsonEntityObject": {
+      "required": [
+        "entity",
+        "role",
+        "startPos",
+        "endPos"
+      ],
+      "type": "object",
+      "properties": {
+        "entity": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string"
+        },
+        "startPos": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "endPos": {
+          "format": "int32",
+          "type": "integer"
+        }
+      }
+    },
+    "JsonPhraseListObject": {
+      "required": [
+        "name",
+        "mode",
+        "words",
+        "activated",
+        "enabledForAllModels"
+      ],
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "mode": {
+          "type": "boolean"
+        },
+        "words": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "activated": {
+          "type": "boolean"
+        },
+        "enabledForAllModels": {
+          "type": "boolean"
+        }
+      }
+    },
+    "JsonPatternFeatureObject": {
+      "required": [
+        "name",
+        "pattern",
+        "activated"
+      ],
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "pattern": {
+          "type": "string"
+        },
+        "activated": {
+          "type": "boolean"
+        }
+      }
+    },
+    "JsonPatternObject": {
+      "required": [
+        "pattern",
+        "intent"
+      ],
+      "type": "object",
+      "properties": {
+        "pattern": {
+          "type": "string"
+        },
+        "intent": {
+          "type": "string"
+        }
+      }
+    },
+    "JsonSettingObject": {
+      "required": [
+        "name",
+        "value"
+      ],
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        }
+      }
+    },
+    "GetApplicationPermissionSettings": {
+      "required": [
+        "public"
+      ],
+      "type": "object",
+      "properties": {
+        "public": {
+          "type": "boolean"
+        }
+      }
+    },
+    "GetPredictionSettings-Conversations": {
+      "required": [
+        "id"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "uuid",
+          "type": "string",
+          "example": "00000000-0000-0000-0000-000000000000"
+        },
+        "sentimentAnalysis": {
+          "type": "boolean"
+        },
+        "speech": {
+          "type": "boolean"
+        },
+        "spellChecker": {
+          "type": "boolean"
+        }
+      }
+    },
+    "ApplicationCultureInfoList": {
+      "required": [
+        "cultures"
+      ],
+      "type": "object",
+      "properties": {
+        "cultures": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ApplicationCultureInfo"
+          }
+        }
+      }
+    },
+    "ApplicationCultureInfo": {
+      "required": [
+        "cultureName",
+        "cultureCode"
+      ],
+      "type": "object",
+      "properties": {
+        "cultureName": {
+          "type": "string"
+        },
+        "cultureCode": {
+          "type": "string"
+        }
+      }
+    },
+    "ApplicationTokenizerInfo": {
+      "required": [
+        "tokenizerVersions",
+        "cultureName",
+        "cultureCode"
+      ],
+      "type": "object",
+      "properties": {
+        "tokenizerVersions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "cultureName": {
+          "type": "string"
+        },
+        "cultureCode": {
+          "type": "string"
+        }
+      }
+    },
+    "PrebuiltDomainInfo-Conversations": {
+      "required": [
+        "name",
+        "culture",
+        "tokenizerVersion",
+        "description",
+        "examples",
+        "intents",
+        "entities"
+      ],
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "culture": {
+          "type": "string"
+        },
+        "tokenizerVersion": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "examples": {
+          "type": "string"
+        },
+        "intents": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PrebuiltDomainModelInfo-Conversations"
+          }
+        },
+        "entities": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PrebuiltDomainModelInfo-Conversations"
+          }
+        }
+      }
+    },
+    "PrebuiltDomainModelInfo-Conversations": {
+      "required": [
+        "name",
+        "description",
+        "examples"
+      ],
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "examples": {
+          "type": "string"
+        }
+      }
+    },
+    "UpdateApplication": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "UpdateApplicationPermissionSettings": {
+      "required": [
+        "public"
+      ],
+      "type": "object",
+      "properties": {
+        "public": {
+          "type": "boolean"
+        }
+      }
+    },
+    "UpdatePredictionSettings-Conversations": {
+      "type": "object",
+      "properties": {
+        "sentimentAnalysis": {
+          "type": "boolean"
+        },
+        "speech": {
+          "type": "boolean"
+        },
+        "spellChecker": {
+          "type": "boolean"
+        }
+      }
+    },
+    "CreateApplicationVersion-Conversations": {
+      "type": "object",
+      "properties": {
+        "versionId": {
+          "type": "string"
+        }
+      }
+    },
+    "GetApplicationVersion": {
+      "required": [
+        "appId",
+        "versionId",
+        "createdDateTime",
+        "lastModifiedDateTime",
+        "lastTrainedDateTime",
+        "lastPublishedDateTime",
+        "endpointUrl",
+        "assignedEndpointKey",
+        "externalApiKeys",
+        "intentsCount",
+        "entitiesCount",
+        "endpointHitsCount",
+        "trainingStatus"
+      ],
+      "type": "object",
+      "properties": {
+        "appId": {
+          "format": "uuid",
+          "type": "string",
+          "example": "00000000-0000-0000-0000-000000000000"
+        },
+        "versionId": {
+          "type": "string"
+        },
+        "createdDateTime": {
+          "type": "string"
+        },
+        "lastModifiedDateTime": {
+          "type": "string"
+        },
+        "lastTrainedDateTime": {
+          "type": "string"
+        },
+        "lastPublishedDateTime": {
+          "type": "string"
+        },
+        "endpointUrl": {
+          "type": "string"
+        },
+        "assignedEndpointKey": {
+          "type": "string"
+        },
+        "externalApiKeys": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "intentsCount": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "entitiesCount": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "endpointHitsCount": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "trainingStatus": {
+          "type": "string"
+        }
+      }
+    },
+    "UpdateApplicationVersionSettings": {
+      "type": "object",
+      "properties": {
+        "useAllTrainingData": {
+          "type": "boolean"
+        },
+        "normalizeDiacritics": {
+          "type": "boolean"
+        },
+        "normalizePunctuation": {
+          "type": "boolean"
+        },
+        "enableEEBoWFeature": {
+          "type": "boolean"
+        }
+      }
+    },
+    "GetApplicationVersionSettings": {
+      "type": "object",
+      "properties": {
+        "useAllTrainingData": {
+          "type": "boolean"
+        },
+        "normalizeDiacritics": {
+          "type": "boolean"
+        },
+        "normalizePunctuation": {
+          "type": "boolean"
+        },
+        "enableEEBoWFeature": {
+          "type": "boolean"
+        }
+      }
+    },
+    "UpdateApplicationVersion": {
+      "required": [
+        "versionId"
+      ],
+      "type": "object",
+      "properties": {
+        "versionId": {
+          "type": "string"
+        }
+      }
+    },
+    "CreateFeature-Conversations": {
+      "required": [
+        "featureDetails",
+        "name",
+        "featureType"
+      ],
+      "type": "object",
+      "properties": {
+        "isActive": {
+          "description": "A flag indicating whether the feature is active or not",
+          "type": "boolean"
+        },
+        "featureDetails": {
+          "description": "The feature details",
+          "$ref": "#/definitions/CreateFeaturesDetails-Conversations"
+        },
+        "name": {
+          "description": "The feature name",
+          "type": "string"
+        },
+        "featureType": {
+          "description": "The feature type. Possible values: phraselist, proximity",
+          "type": "string"
+        }
+      }
+    },
+    "CreateFeaturesDetails-Conversations": {
+      "required": [
+        "phraseListDetails"
+      ],
+      "type": "object",
+      "properties": {
+        "phraseListDetails": {
+          "description": "Phrase list feature details",
+          "$ref": "#/definitions/CreatePhraseListFeatureDetails-Conversations"
+        }
+      }
+    },
+    "CreatePhraseListFeatureDetails-Conversations": {
+      "required": [
+        "enabledForAllModels",
+        "isExchangeable",
+        "previousSuggestions",
+        "phrases",
+        "options"
+      ],
+      "type": "object",
+      "properties": {
+        "enabledForAllModels": {
+          "description": "Is phraselist enabled for all models",
+          "type": "boolean"
+        },
+        "isExchangeable": {
+          "description": "A flag indicating whether the feature phrases are exchangeable or not",
+          "type": "boolean"
+        },
+        "previousSuggestions": {
+          "description": "Previous suggestions",
+          "$ref": "#/definitions/SuggestionObject-Conversations"
+        },
+        "phrases": {
+          "description": "The list of phrases",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "options": {
+          "description": "The phraselist options.",
+          "$ref": "#/definitions/PhraseListFeatureOptions"
+        }
+      }
+    },
+    "SuggestionObject-Conversations": {
+      "required": [
+        "suggestedEntries",
+        "inputWords",
+        "rankingInfos",
+        "blacks"
+      ],
+      "type": "object",
+      "properties": {
+        "suggestedEntries": {
+          "description": "List of suggested entries",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "inputWords": {
+          "description": "List of input words",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "rankingInfos": {
+          "description": "Dictionary of ranking objects",
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/RankingObject-Conversations"
+            }
+          }
+        },
+        "blacks": {
+          "description": "List of blacks entries",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "RankingObject-Conversations": {
+      "required": [
+        "rankerName",
+        "rank"
+      ],
+      "type": "object",
+      "properties": {
+        "rankerName": {
+          "description": "The ranker name",
+          "type": "string"
+        },
+        "rank": {
+          "format": "int32",
+          "description": "The rank value",
+          "type": "integer"
+        }
+      }
+    },
+    "PhraseListFeatureOptions": {
+      "required": [
+        "ignoreCase",
+        "ignoreDigitIdentity",
+        "ignoreLetterIdentity"
+      ],
+      "type": "object",
+      "properties": {
+        "ignoreCase": {
+          "description": "The value of the IgnoreCase option.",
+          "type": "boolean"
+        },
+        "ignoreDigitIdentity": {
+          "description": "The value of the IgnoreDigitIdentity option.",
+          "type": "boolean"
+        },
+        "ignoreLetterIdentity": {
+          "description": "The value of the IgnoreLetterIdentity option.",
+          "type": "boolean"
+        }
+      }
+    },
+    "GetFeature-Conversations": {
+      "required": [
+        "id",
+        "featureTypeId",
+        "featureDetails",
+        "name",
+        "featureType"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "The feature id",
+          "type": "string"
+        },
+        "featureTypeId": {
+          "format": "int32",
+          "description": "The feature type id",
+          "type": "integer"
+        },
+        "isActive": {
+          "description": "A flag indicating whether the feature is active or not",
+          "type": "boolean"
+        },
+        "featureDetails": {
+          "description": "The feature details",
+          "$ref": "#/definitions/GetFeaturesDetails-Conversations"
+        },
+        "name": {
+          "description": "The feature name",
+          "type": "string"
+        },
+        "featureType": {
+          "description": "The feature type. Possible values: phraselist, proximity",
+          "type": "string"
+        }
+      }
+    },
+    "GetFeaturesDetails-Conversations": {
+      "required": [
+        "phraseListDetails"
+      ],
+      "type": "object",
+      "properties": {
+        "phraseListDetails": {
+          "description": "Phrase list feature details",
+          "$ref": "#/definitions/GetPhraseListFeatureDetails-Conversations"
+        }
+      }
+    },
+    "GetPhraseListFeatureDetails-Conversations": {
+      "required": [
+        "enabledForAllModels",
+        "isExchangeable",
+        "phrases",
+        "options"
+      ],
+      "type": "object",
+      "properties": {
+        "enabledForAllModels": {
+          "description": "Is phraselist enabled for all models",
+          "type": "boolean"
+        },
+        "isExchangeable": {
+          "description": "Are phrases exchangeable flag",
+          "type": "boolean"
+        },
+        "phrases": {
+          "description": "The list of phrases",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "options": {
+          "description": "The phraselist options.",
+          "$ref": "#/definitions/PhraseListFeatureOptions"
+        }
+      }
+    },
+    "GetFeatures-Conversations": {
+      "required": [
+        "features"
+      ],
+      "type": "object",
+      "properties": {
+        "features": {
+          "description": "List of features",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/GetFeature-Conversations"
+          }
+        }
+      }
+    },
+    "UpdateFeature-Conversations": {
+      "required": [
+        "featureDetails",
+        "name"
+      ],
+      "type": "object",
+      "properties": {
+        "isActive": {
+          "description": "A flag indicating whether the feature is active or not",
+          "type": "boolean"
+        },
+        "featureDetails": {
+          "description": "The feature details",
+          "$ref": "#/definitions/UpdateFeaturesDetails-Conversations"
+        },
+        "name": {
+          "description": "The feature name",
+          "type": "string"
+        }
+      }
+    },
+    "UpdateFeaturesDetails-Conversations": {
+      "required": [
+        "phraseListDetails"
+      ],
+      "type": "object",
+      "properties": {
+        "phraseListDetails": {
+          "description": "Phrase list feature details",
+          "$ref": "#/definitions/UpdatePhraseListFeatureDetails-Conversations"
+        }
+      }
+    },
+    "UpdatePhraseListFeatureDetails-Conversations": {
+      "required": [
+        "enabledForAllModels",
+        "isExchangeable",
+        "previousSuggestions",
+        "phrases",
+        "options"
+      ],
+      "type": "object",
+      "properties": {
+        "enabledForAllModels": {
+          "description": "Is phraselist enabled for all models",
+          "type": "boolean"
+        },
+        "isExchangeable": {
+          "description": "A flag indicating whether the feature phrases are exchangeable or not",
+          "type": "boolean"
+        },
+        "previousSuggestions": {
+          "description": "Previous suggestions",
+          "$ref": "#/definitions/SuggestionObject-Conversations"
+        },
+        "phrases": {
+          "description": "The list of phrases",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "options": {
+          "description": "The phraselist options.",
+          "$ref": "#/definitions/PhraseListFeatureOptions"
+        }
+      }
+    },
+    "SuggestionResultObject": {
+      "type": "object",
+      "properties": {
+        "SuggestedEntries": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "InputWords": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "RankingInfos": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/RankingObject"
+            }
+          }
+        },
+        "Blacks": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "RankingObject": {
+      "type": "object",
+      "properties": {
+        "RankerName": {
+          "type": "string"
+        },
+        "Rank": {
+          "format": "int32",
+          "type": "integer"
+        }
+      }
+    },
+    "CreateModel-Conversations": {
+      "required": [
+        "name"
+      ],
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "The model name.",
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "lastModifiedDateTime": {
+          "type": "string"
+        }
+      }
+    },
+    "SimpleCModelObject": {
+      "type": "object",
+      "properties": {
+        "Type": {
+          "enum": [
+            "Any",
+            "PrebuiltDomainModel",
+            "IntentClassifier",
+            "EntityExtractor",
+            "PrebuiltEntityExtractor",
+            "HierarchicalEntityExtractor",
+            "HierarchicalChildEntityExtractor",
+            "CompositeEntityExtractor",
+            "ClosedListEntityExtractor",
+            "RegexEntityExtractor",
+            "PatternAnyEntityExtractor",
+            "ChildEntityExtractor"
+          ],
+          "type": "string"
+        },
+        "TrainedTypes": {
+          "enum": [
+            "None",
+            "Ice",
+            "Patterns",
+            "MachineLearnt"
+          ],
+          "type": "string"
+        },
+        "Id": {
+          "format": "uuid",
+          "type": "string",
+          "example": "00000000-0000-0000-0000-000000000000"
+        },
+        "AppVersionId": {
+          "format": "uuid",
+          "type": "string",
+          "example": "00000000-0000-0000-0000-000000000000"
+        },
+        "Name": {
+          "type": "string"
+        },
+        "PrebuiltDomainDescriptor": {
+          "$ref": "#/definitions/PrebuiltDomainDescriptorObject"
+        },
+        "LastTrainDateTime": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "LastModifiedDateTime": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "NeedsTraining": {
+          "type": "boolean"
+        },
+        "Description": {
+          "type": "string"
+        },
+        "Features": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/IModelFeatureRelation"
+          }
+        },
+        "IsPrebuiltDomainModel": {
+          "type": "boolean"
+        }
+      }
+    },
+    "PrebuiltDomainDescriptorObject": {
+      "type": "object",
+      "properties": {
+        "CustomizableDomainName": {
+          "type": "string"
+        },
+        "CustomizableModelName": {
+          "type": "string"
+        },
+        "InternalModelName": {
+          "type": "string"
+        },
+        "InternalDomainName": {
+          "type": "string"
+        },
+        "PrebuiltSourceType": {
+          "enum": [
+            "ICE",
+            "IntentApiTIMEX",
+            "IntentApiSatori",
+            "EmailRegex",
+            "URLRegex",
+            "PhoneNumberRegex",
+            "DateTime",
+            "Number",
+            "Ordinal",
+            "Percentage",
+            "Temperature",
+            "Currency",
+            "Dimension",
+            "Age",
+            "Qas",
+            "LuisModel",
+            "QasDoradoSkills",
+            "KeyPhraseExtractor",
+            "NERPerson",
+            "NERLocation",
+            "Carina"
+          ],
+          "type": "string"
+        },
+        "FormattedModelName": {
+          "type": "string"
+        }
+      }
+    },
+    "IModelFeatureRelation": {
+      "description": "Defines the relation between a model and a feature (model as a feature or a non-model feature).",
+      "type": "object",
+      "properties": {
+        "Id": {
+          "format": "int32",
+          "description": "Gets the id of the feature",
+          "type": "integer"
+        },
+        "Type": {
+          "description": "Gets type of the feature.",
+          "enum": [
+            "Model",
+            "Feature"
+          ],
+          "type": "string"
+        },
+        "IsActive": {
+          "description": "Gets state of the feature activity.",
+          "type": "boolean"
+        }
+      }
+    },
+    "CreateEntityModel-Conversations": {
+      "required": [
+        "children",
+        "name"
+      ],
+      "type": "object",
+      "properties": {
+        "children": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CreateChildModel-Conversations"
+          }
+        },
+        "name": {
+          "description": "The model name.",
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "lastModifiedDateTime": {
+          "type": "string"
+        }
+      }
+    },
+    "CreateChildModel-Conversations": {
+      "required": [
+        "instanceOf",
+        "children",
+        "name"
+      ],
+      "type": "object",
+      "properties": {
+        "instanceOf": {
+          "type": "string"
+        },
+        "children": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CreateChildModel-Conversations"
+          }
+        },
+        "name": {
+          "description": "The model name.",
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "lastModifiedDateTime": {
+          "type": "string"
+        }
+      }
+    },
+    "EntityModelObject": {
+      "type": "object",
+      "properties": {
+        "Roles": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/EntityRoleObject"
+          }
+        },
+        "TrainedTypes": {
+          "enum": [
+            "None",
+            "Ice",
+            "Patterns",
+            "MachineLearnt"
+          ],
+          "type": "string"
+        },
+        "Type": {
+          "enum": [
+            "Any",
+            "PrebuiltDomainModel",
+            "IntentClassifier",
+            "EntityExtractor",
+            "PrebuiltEntityExtractor",
+            "HierarchicalEntityExtractor",
+            "HierarchicalChildEntityExtractor",
+            "CompositeEntityExtractor",
+            "ClosedListEntityExtractor",
+            "RegexEntityExtractor",
+            "PatternAnyEntityExtractor",
+            "ChildEntityExtractor"
+          ],
+          "type": "string"
+        },
+        "Children": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ChildEntityModelObject"
+          }
+        },
+        "NodeName": {
+          "type": "string"
+        },
+        "Id": {
+          "format": "uuid",
+          "type": "string",
+          "example": "00000000-0000-0000-0000-000000000000"
+        },
+        "AppVersionId": {
+          "format": "uuid",
+          "type": "string",
+          "example": "00000000-0000-0000-0000-000000000000"
+        },
+        "Name": {
+          "type": "string"
+        },
+        "PrebuiltDomainDescriptor": {
+          "$ref": "#/definitions/PrebuiltDomainDescriptorObject"
+        },
+        "LastTrainDateTime": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "LastModifiedDateTime": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "NeedsTraining": {
+          "type": "boolean"
+        },
+        "Description": {
+          "type": "string"
+        },
+        "Features": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/IModelFeatureRelation"
+          }
+        },
+        "IsPrebuiltDomainModel": {
+          "type": "boolean"
+        }
+      }
+    },
+    "EntityRoleObject": {
+      "type": "object",
+      "properties": {
+        "Id": {
+          "format": "uuid",
+          "type": "string",
+          "example": "00000000-0000-0000-0000-000000000000"
+        },
+        "Name": {
+          "type": "string"
+        }
+      }
+    },
+    "ChildEntityModelObject": {
+      "type": "object",
+      "properties": {
+        "DependsOnModelName": {
+          "type": "string"
+        },
+        "DependsOnModelId": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "ParentRelationId": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "Type": {
+          "enum": [
+            "Any",
+            "PrebuiltDomainModel",
+            "IntentClassifier",
+            "EntityExtractor",
+            "PrebuiltEntityExtractor",
+            "HierarchicalEntityExtractor",
+            "HierarchicalChildEntityExtractor",
+            "CompositeEntityExtractor",
+            "ClosedListEntityExtractor",
+            "RegexEntityExtractor",
+            "PatternAnyEntityExtractor",
+            "ChildEntityExtractor"
+          ],
+          "type": "string"
+        },
+        "HierarchicalLevel": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "ParentModelId": {
+          "format": "uuid",
+          "type": "string",
+          "example": "00000000-0000-0000-0000-000000000000"
+        },
+        "Children": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ChildEntityModelObject"
+          }
+        },
+        "NodeName": {
+          "type": "string"
+        },
+        "Id": {
+          "format": "uuid",
+          "type": "string",
+          "example": "00000000-0000-0000-0000-000000000000"
+        },
+        "AppVersionId": {
+          "format": "uuid",
+          "type": "string",
+          "example": "00000000-0000-0000-0000-000000000000"
+        },
+        "Name": {
+          "type": "string"
+        },
+        "PrebuiltDomainDescriptor": {
+          "$ref": "#/definitions/PrebuiltDomainDescriptorObject"
+        },
+        "LastTrainDateTime": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "LastModifiedDateTime": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "NeedsTraining": {
+          "type": "boolean"
+        },
+        "Description": {
+          "type": "string"
+        },
+        "Features": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/IModelFeatureRelation"
+          }
+        },
+        "IsPrebuiltDomainModel": {
+          "type": "boolean"
+        }
+      }
+    },
+    "CreateHierarchicalChildModel-Conversations": {
+      "required": [
+        "name"
+      ],
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "The model name.",
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "lastModifiedDateTime": {
+          "type": "string"
+        }
+      }
+    },
+    "CreateClosedlistModel-Conversations": {
+      "required": [
+        "subLists",
+        "previousResult",
+        "name"
+      ],
+      "type": "object",
+      "properties": {
+        "subLists": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CreateWordlist-Conversations"
+          }
+        },
+        "previousResult": {
+          "$ref": "#/definitions/SuggestionObject-Conversations"
+        },
+        "name": {
+          "description": "The model name.",
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "lastModifiedDateTime": {
+          "type": "string"
+        }
+      }
+    },
+    "CreateWordlist-Conversations": {
+      "required": [
+        "canonicalForm",
+        "list"
+      ],
+      "type": "object",
+      "properties": {
+        "canonicalForm": {
+          "type": "string"
+        },
+        "list": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "CreateRegexModel-Conversations": {
+      "description": "Model object for creating a regex entity model.",
+      "required": [
+        "regexPattern",
+        "name"
+      ],
+      "type": "object",
+      "properties": {
+        "regexPattern": {
+          "description": "The regex entity pattern.",
+          "type": "string"
+        },
+        "name": {
+          "description": "The model name.",
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "lastModifiedDateTime": {
+          "type": "string"
+        }
+      }
+    },
+    "CreatePatternAnyModel-Conversations": {
+      "description": "Model object for creating a Pattern.Any entity model.",
+      "required": [
+        "explicitList",
+        "name"
+      ],
+      "type": "object",
+      "properties": {
+        "explicitList": {
+          "description": "The Pattern.Any explicit list.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "name": {
+          "description": "The model name.",
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "lastModifiedDateTime": {
+          "type": "string"
+        }
+      }
+    },
+    "CreatePrebuiltDomain-Conversations": {
+      "required": [
+        "domainName"
+      ],
+      "type": "object",
+      "properties": {
+        "domainName": {
+          "type": "string"
+        }
+      }
+    },
+    "CreatePrebuiltDomainModel-Conversations": {
+      "required": [
+        "modelName",
+        "domainName"
+      ],
+      "type": "object",
+      "properties": {
+        "modelName": {
+          "type": "string"
+        },
+        "domainName": {
+          "type": "string"
+        }
+      }
+    },
+    "CreateEntityRole-Conversations": {
+      "description": "Object model for creating an entity role.",
+      "required": [
+        "name"
+      ],
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "The entity role name.",
+          "type": "string"
+        }
+      }
+    },
+    "CreateExplicitlistItem-Conversations": {
+      "description": "Object model for creating an explicit list item.",
+      "required": [
+        "explicitListItem"
+      ],
+      "type": "object",
+      "properties": {
+        "explicitListItem": {
+          "description": "The explicit list item.",
+          "type": "string"
+        }
+      }
+    },
+    "ModelInfo-Conversations": {
+      "required": [
+        "id",
+        "typeId",
+        "readableType",
+        "children",
+        "subLists",
+        "customPrebuiltDomainName",
+        "customPrebuiltModelName",
+        "regexPattern",
+        "explicitList",
+        "roles",
+        "name"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "uuid",
+          "type": "string",
+          "example": "00000000-0000-0000-0000-000000000000"
+        },
+        "typeId": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "readableType": {
+          "type": "string"
+        },
+        "children": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ModelChildInfo-Conversations"
+          }
+        },
+        "subLists": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/WordlistInfo-Conversations"
+          }
+        },
+        "customPrebuiltDomainName": {
+          "type": "string"
+        },
+        "customPrebuiltModelName": {
+          "type": "string"
+        },
+        "regexPattern": {
+          "type": "string"
+        },
+        "explicitList": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ExplicitlistItemInfo-Conversations"
+          }
+        },
+        "roles": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/EntityRoleInfo-Conversations"
+          }
+        },
+        "name": {
+          "description": "The model name.",
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "lastModifiedDateTime": {
+          "type": "string"
+        }
+      }
+    },
+    "ModelChildInfo-Conversations": {
+      "required": [
+        "id",
+        "name",
+        "instanceOf",
+        "children",
+        "typeId",
+        "readableType"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "uuid",
+          "type": "string",
+          "example": "00000000-0000-0000-0000-000000000000"
+        },
+        "name": {
+          "type": "string"
+        },
+        "instanceOf": {
+          "type": "string"
+        },
+        "children": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ModelChildInfo-Conversations"
+          }
+        },
+        "typeId": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "readableType": {
+          "type": "string"
+        }
+      }
+    },
+    "WordlistInfo-Conversations": {
+      "required": [
+        "id",
+        "canonicalForm",
+        "list"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "canonicalForm": {
+          "type": "string"
+        },
+        "list": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "ExplicitlistItemInfo-Conversations": {
+      "description": "Model object for an explicit list item.",
+      "required": [
+        "id",
+        "explicitListItem"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "int64",
+          "description": "The explicit list item ID.",
+          "type": "integer"
+        },
+        "explicitListItem": {
+          "description": "The explicit list item.",
+          "type": "string"
+        }
+      }
+    },
+    "EntityRoleInfo-Conversations": {
+      "description": "Object model for an entity role.",
+      "required": [
+        "id",
+        "name"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "uuid",
+          "description": "The entity role ID.",
+          "type": "string",
+          "example": "00000000-0000-0000-0000-000000000000"
+        },
+        "name": {
+          "description": "The entity role name.",
+          "type": "string"
+        }
+      }
+    },
+    "UpdateModel-Conversations": {
+      "required": [
+        "name"
+      ],
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "The model name.",
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "lastModifiedDateTime": {
+          "type": "string"
+        }
+      }
+    },
+    "UpdateChildModel-Conversations": {
+      "required": [
+        "instanceOf",
+        "name"
+      ],
+      "type": "object",
+      "properties": {
+        "instanceOf": {
+          "type": "string"
+        },
+        "name": {
+          "description": "The model name.",
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "lastModifiedDateTime": {
+          "type": "string"
+        }
+      }
+    },
+    "UpdateHierarchicalModel-Conversations": {
+      "required": [
+        "children",
+        "name"
+      ],
+      "type": "object",
+      "properties": {
+        "children": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "name": {
+          "description": "The model name.",
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "lastModifiedDateTime": {
+          "type": "string"
+        }
+      }
+    },
+    "UpdatePatternAnyModel-Conversations": {
+      "description": "Model object for updating a Pattern.Any entity model.",
+      "required": [
+        "explicitList",
+        "name"
+      ],
+      "type": "object",
+      "properties": {
+        "explicitList": {
+          "description": "The Pattern.Any explicit list.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "name": {
+          "description": "The model name.",
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "lastModifiedDateTime": {
+          "type": "string"
+        }
+      }
+    },
+    "UpdateHierarchicalChildModel-Conversations": {
+      "required": [
+        "name"
+      ],
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "The model name.",
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "lastModifiedDateTime": {
+          "type": "string"
+        }
+      }
+    },
+    "UpdateRegexModel-Conversations": {
+      "description": "Model object for updating a regex entity model.",
+      "required": [
+        "regexPattern",
+        "name"
+      ],
+      "type": "object",
+      "properties": {
+        "regexPattern": {
+          "description": "The regex entity pattern.",
+          "type": "string"
+        },
+        "name": {
+          "description": "The model name.",
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "lastModifiedDateTime": {
+          "type": "string"
+        }
+      }
+    },
+    "UpdateClosedlistModel-Conversations": {
+      "required": [
+        "subLists",
+        "previousResult",
+        "name"
+      ],
+      "type": "object",
+      "properties": {
+        "subLists": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/UpdateWordlist-Conversations"
+          }
+        },
+        "previousResult": {
+          "$ref": "#/definitions/SuggestionObject-Conversations"
+        },
+        "name": {
+          "description": "The model name.",
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "lastModifiedDateTime": {
+          "type": "string"
+        }
+      }
+    },
+    "UpdateWordlist-Conversations": {
+      "required": [
+        "id",
+        "canonicalForm",
+        "list"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "canonicalForm": {
+          "type": "string"
+        },
+        "list": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "UpdateBaseWordlist-Conversations": {
+      "required": [
+        "canonicalForm",
+        "list"
+      ],
+      "type": "object",
+      "properties": {
+        "canonicalForm": {
+          "type": "string"
+        },
+        "list": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "UpdateEntityRole-Conversations": {
+      "description": "Object model for updating an entity role.",
+      "required": [
+        "name"
+      ],
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "The entity role name.",
+          "type": "string"
+        }
+      }
+    },
+    "UpdateExplicitlistItem-Conversations": {
+      "description": "Model object for updating an explicit list item.",
+      "required": [
+        "explicitListItem"
+      ],
+      "type": "object",
+      "properties": {
+        "explicitListItem": {
+          "description": "The explicit list item.",
+          "type": "string"
+        }
+      }
+    },
+    "CreateModelFeatureRelation-Conversations": {
+      "required": [
+        "id"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        }
+      }
+    },
+    "PatchClosedlistModel-Conversations": {
+      "required": [
+        "subLists"
+      ],
+      "type": "object",
+      "properties": {
+        "subLists": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CreateWordlist-Conversations"
+          }
+        }
+      }
+    },
+    "FeatureSuggestionParameter-Conversations": {
+      "required": [
+        "words",
+        "topN",
+        "previousResult",
+        "culture"
+      ],
+      "type": "object",
+      "properties": {
+        "words": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "topN": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "previousResult": {
+          "$ref": "#/definitions/SuggestionObject-Conversations"
+        },
+        "culture": {
+          "type": "string"
+        }
+      }
+    },
+    "CreatePattern-Conversations": {
+      "description": "Object model for creating a pattern",
+      "required": [
+        "pattern",
+        "intent"
+      ],
+      "type": "object",
+      "properties": {
+        "pattern": {
+          "description": "The pattern text.",
+          "type": "string"
+        },
+        "intent": {
+          "description": "The intent's name which the pattern belongs to.",
+          "type": "string"
+        }
+      }
+    },
+    "GetPattern-Conversations": {
+      "description": "Object model for updating a pattern.",
+      "required": [
+        "id",
+        "pattern",
+        "intent"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "uuid",
+          "description": "The pattern ID.",
+          "type": "string",
+          "example": "00000000-0000-0000-0000-000000000000"
+        },
+        "pattern": {
+          "description": "The pattern text.",
+          "type": "string"
+        },
+        "intent": {
+          "description": "The intent's name which the pattern belongs to.",
+          "type": "string"
+        }
+      }
+    },
+    "UpdatePattern-Conversations": {
+      "description": "Object model for updating a pattern.",
+      "required": [
+        "id",
+        "pattern",
+        "intent"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "uuid",
+          "description": "The pattern ID.",
+          "type": "string",
+          "example": "00000000-0000-0000-0000-000000000000"
+        },
+        "pattern": {
+          "description": "The pattern text.",
+          "type": "string"
+        },
+        "intent": {
+          "description": "The intent's name which the pattern belongs to.",
+          "type": "string"
+        }
+      }
+    },
+    "GetPermissions": {
+      "required": [
+        "emails"
+      ],
+      "type": "object",
+      "properties": {
+        "owner": {
+          "type": "string"
+        },
+        "emails": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "CreatePermissions": {
+      "required": [
+        "email"
+      ],
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        }
+      }
+    },
+    "UpdatePermissions": {
+      "required": [
+        "emails"
+      ],
+      "type": "object",
+      "properties": {
+        "emails": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "DeletePermissions": {
+      "required": [
+        "email"
+      ],
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        }
+      }
+    },
+    "TrainingStatus": {
+      "description": "Represents training status.",
+      "required": [
+        "trainingStatus",
+        "trainingStatusDetails"
+      ],
+      "type": "object",
+      "properties": {
+        "trainingStatus": {
+          "description": "Represents application training status.",
+          "$ref": "#/definitions/AppVersionTrainingStatusDetails"
+        },
+        "trainingStatusDetails": {
+          "description": "Represents the detailed training status, status for each model.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ModelTrainingStatusDetails"
+          }
+        }
+      }
+    },
+    "AppVersionTrainingStatusDetails": {
+      "description": "Represents the application training status.",
+      "required": [
+        "statusId",
+        "status"
+      ],
+      "type": "object",
+      "properties": {
+        "statusId": {
+          "format": "int32",
+          "description": "Status Id.",
+          "type": "integer"
+        },
+        "status": {
+          "description": "Application training status.",
+          "type": "string"
+        }
+      }
+    },
+    "ModelTrainingStatusDetails": {
+      "description": "Represents the detailed training status, status for every model.",
+      "type": "object",
+      "properties": {
+        "modelId": {
+          "format": "uuid",
+          "description": "Model Id.",
+          "type": "string",
+          "example": "00000000-0000-0000-0000-000000000000"
+        },
+        "details": {
+          "description": "Training status detail for every model.",
+          "$ref": "#/definitions/TrainingStatusDetails"
+        }
+      }
+    },
+    "TrainingStatusDetails": {
+      "description": "Represents training status detail for every model.",
+      "type": "object",
+      "properties": {
+        "statusId": {
+          "format": "int32",
+          "description": "Status id.",
+          "type": "integer"
+        },
+        "status": {
+          "description": "Represents training status.",
+          "type": "string"
+        },
+        "exampleCount": {
+          "format": "int32",
+          "description": "Represents the number of examples associated with a model.",
+          "type": "integer"
+        },
+        "trainingDateTime": {
+          "description": "Represents the training datetime.",
+          "type": "string"
+        },
+        "failureReason": {
+          "description": "Represents the training failure reason.",
+          "type": "string"
+        },
+        "progressSubstatus": {
+          "description": "Represents the model training progress.",
+          "type": "string"
+        }
+      }
+    },
+    "GetDocumentsDict-Documents": {
+      "description": "Represents documents dictionary.",
+      "required": [
+        "documents"
+      ],
+      "type": "object",
+      "properties": {
+        "documents": {
+          "description": "Represents the documents.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Document"
+          }
+        }
+      }
+    },
+    "Document": {
+      "description": "Represents an example.",
+      "required": [
+        "documentId"
+      ],
+      "type": "object",
+      "properties": {
+        "documentId": {
+          "description": "Represents the ID of the document in storage.",
+          "type": "string"
+        },
+        "exampleId": {
+          "format": "int32",
+          "description": "Represents the ID of the example.",
+          "type": "integer"
+        }
+      }
+    },
+    "GetExamplesDict-Documents": {
+      "description": "Represents an example dictionary.",
+      "required": [
+        "examples"
+      ],
+      "type": "object",
+      "properties": {
+        "examples": {
+          "description": "Represents the example document.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/GetExample-Documents"
+          }
+        }
+      }
+    },
+    "GetExample-Documents": {
+      "description": "Represents an example.",
+      "required": [
+        "document"
+      ],
+      "type": "object",
+      "properties": {
+        "document": {
+          "description": "Represents the example document.",
+          "$ref": "#/definitions/Document"
+        },
+        "classificationLabels": {
+          "description": "Represents the classifier labels of an example.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/GetClassificationLabel-Documents"
+          }
+        },
+        "miniDocs": {
+          "description": "Represents the mini docs of an example.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/GetMiniDoc-Documents"
+          }
+        }
+      }
+    },
+    "GetClassificationLabel-Documents": {
+      "description": "Represents a classifier label.",
+      "required": [
+        "modelId",
+        "label"
+      ],
+      "type": "object",
+      "properties": {
+        "modelId": {
+          "format": "uuid",
+          "description": "Represents the Id of the model.",
+          "type": "string",
+          "example": "00000000-0000-0000-0000-000000000000"
+        },
+        "label": {
+          "description": "Represents the label of the classifier label.",
+          "type": "boolean"
+        }
+      }
+    },
+    "GetMiniDoc-Documents": {
+      "description": "Represents a mini doc.",
+      "required": [
+        "modelId",
+        "startCharIndex",
+        "endCharIndex"
+      ],
+      "type": "object",
+      "properties": {
+        "modelId": {
+          "format": "uuid",
+          "description": "Represents the Id of the mini-doc extractor model.",
+          "type": "string",
+          "example": "00000000-0000-0000-0000-000000000000"
+        },
+        "positiveExtractionLabels": {
+          "description": "Represents the extractor labels of the mini doc.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/GetExtractionLabel-Documents"
+          }
+        },
+        "startCharIndex": {
+          "format": "int32",
+          "description": "Represents the character start index.",
+          "type": "integer"
+        },
+        "endCharIndex": {
+          "format": "int32",
+          "description": "Represents the character end index.",
+          "type": "integer"
+        }
+      }
+    },
+    "GetExtractionLabel-Documents": {
+      "description": "Represents an extractor label.",
+      "required": [
+        "modelId"
+      ],
+      "type": "object",
+      "properties": {
+        "modelId": {
+          "format": "uuid",
+          "description": "Represents the Id of the model.",
+          "type": "string",
+          "example": "00000000-0000-0000-0000-000000000000"
+        },
+        "startCharIndex": {
+          "format": "int32",
+          "description": "Represents the character start index of the extractor label.",
+          "type": "integer"
+        },
+        "endCharIndex": {
+          "format": "int32",
+          "description": "Represents the character end index of the extractor label.",
+          "type": "integer"
+        }
+      }
+    },
+    "PostClassificationExample-Documents": {
+      "description": "Represents an example classifier labels.",
+      "required": [
+        "label"
+      ],
+      "type": "object",
+      "properties": {
+        "label": {
+          "description": "Represents the label of the classifier label.",
+          "type": "boolean"
+        },
+        "samplingParams": {
+          "description": "Represents the parameters of the sample the label belongs to.",
+          "$ref": "#/definitions/SamplingParams"
+        }
+      }
+    },
+    "SamplingParams": {
+      "description": "Represents an example.",
+      "required": [
+        "samplerType",
+        "take",
+        "count"
+      ],
+      "type": "object",
+      "properties": {
+        "samplerType": {
+          "description": "Represents the type of the sampler used",
+          "enum": [
+            "Random",
+            "Search",
+            "Classification",
+            "Extraction"
+          ],
+          "type": "string"
+        },
+        "take": {
+          "format": "int32",
+          "description": "Represents how many items were requested.",
+          "type": "integer"
+        },
+        "count": {
+          "format": "int32",
+          "description": "Represents how many items were sampled.",
+          "type": "integer"
+        },
+        "searchKeyword": {
+          "description": "Represents keyword used for search sampling.",
+          "type": "string"
+        },
+        "diversityModelId": {
+          "format": "uuid",
+          "description": "Represents ID of the model used for diversity sampling.",
+          "type": "string"
+        },
+        "diversitySamplerType": {
+          "description": "Represents the type of the diversity sampler used.",
+          "enum": [
+            "PredictedPositive",
+            "PredictedNegative",
+            "Uncertainty"
+          ],
+          "type": "string"
+        },
+        "predictionSamplerThreshold": {
+          "format": "float",
+          "description": "Represents the prediction sampler threshold",
+          "type": "number"
+        },
+        "uncertaintySamplerUpperThreshold": {
+          "format": "float",
+          "description": "Represents the uncertainty sampler upper threshold",
+          "type": "number"
+        },
+        "uncertaintySamplerLowerThreshold": {
+          "format": "float",
+          "description": "Represents the uncertainty sampler lower threshold",
+          "type": "number"
+        }
+      }
+    },
+    "PostMiniDocsExample-Documents": {
+      "description": "Represents an example mini docs.",
+      "required": [
+        "miniDocs"
+      ],
+      "type": "object",
+      "properties": {
+        "miniDocs": {
+          "description": "Represents the minidocs of an example.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PostMiniDocLabel-Documents"
+          }
+        }
+      }
+    },
+    "PostMiniDocLabel-Documents": {
+      "description": "Represents a mini doc label.",
+      "type": "object",
+      "properties": {
+        "startCharIndex": {
+          "format": "int32",
+          "description": "Represents the character start index of the mini doc.",
+          "type": "integer"
+        },
+        "endCharIndex": {
+          "format": "int32",
+          "description": "Represents the character end index of the mini doc.",
+          "type": "integer"
+        },
+        "positiveExtractorLabels": {
+          "description": "Represents the extractor labels of the mini doc.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PostExtractionLabel-Documents"
+          }
+        }
+      }
+    },
+    "PostExtractionLabel-Documents": {
+      "description": "Represents an extractor label.",
+      "required": [
+        "modelId",
+        "startCharIndex",
+        "endCharIndex"
+      ],
+      "type": "object",
+      "properties": {
+        "modelId": {
+          "format": "uuid",
+          "description": "Represents the name of the model.",
+          "type": "string",
+          "example": "00000000-0000-0000-0000-000000000000"
+        },
+        "startCharIndex": {
+          "format": "int32",
+          "description": "Represents the character start index of the extractor label.",
+          "type": "integer"
+        },
+        "endCharIndex": {
+          "format": "int32",
+          "description": "Represents the character end index of the extractor label.",
+          "type": "integer"
+        },
+        "samplingParams": {
+          "description": "Represents the parameters of the sample the label belongs to.",
+          "$ref": "#/definitions/SamplingParams"
+        }
+      }
+    },
+    "CreateApplication-Documents": {
+      "description": "An application create object payload",
+      "required": [
+        "storageInfo",
+        "culture",
+        "tokenizerVersion",
+        "appType"
+      ],
+      "type": "object",
+      "properties": {
+        "storageInfo": {
+          "$ref": "#/definitions/ApplicationAzureStorageInfo-Documents"
+        },
+        "crackDocument": {
+          "type": "boolean"
+        },
+        "culture": {
+          "type": "string"
+        },
+        "usageScenario": {
+          "type": "string"
+        },
+        "domain": {
+          "type": "string"
+        },
+        "tokenizerVersion": {
+          "type": "string"
+        },
+        "appType": {
+          "type": "string"
+        },
+        "name": {
+          "description": "Represents the new name of the application",
+          "type": "string"
+        },
+        "description": {
+          "description": "Represents the new description of the application",
+          "type": "string"
+        }
+      }
+    },
+    "ApplicationAzureStorageInfo-Documents": {
+      "required": [
+        "storageAccountName",
+        "storageUnlabeledContainerName",
+        "storageRawContainerName"
+      ],
+      "type": "object",
+      "properties": {
+        "storageAccountName": {
+          "type": "string"
+        },
+        "storageUnlabeledContainerName": {
+          "type": "string"
+        },
+        "storageRawContainerName": {
+          "type": "string"
+        },
+        "storageSubscriptionId": {
+          "type": "string"
+        },
+        "storageResourceGroupName": {
+          "type": "string"
+        }
+      }
+    },
+    "GetApplication-Documents": {
+      "required": [
+        "endpoints",
+        "extractorsCount",
+        "classifiersCount",
+        "phraselistFeaturesCount",
+        "proximityFeaturesCount",
+        "modelAsFeaturesCount",
+        "trainingStatus",
+        "lastTrainedDateTime",
+        "lastModifiedDateTime",
+        "lastPublishedDateTime",
+        "storageInfo",
+        "crackDocument",
+        "id",
+        "createdDateTime",
+        "endpointHitsCount",
+        "ownerEmail",
+        "culture",
+        "tokenizerVersion",
+        "appType"
+      ],
+      "type": "object",
+      "properties": {
+        "endpoints": {
+          "$ref": "#/definitions/ApplicationPublishInformation-Documents"
+        },
+        "extractorsCount": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "classifiersCount": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "phraselistFeaturesCount": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "proximityFeaturesCount": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "modelAsFeaturesCount": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "trainingStatus": {
+          "type": "string"
+        },
+        "lastTrainedDateTime": {
+          "type": "string"
+        },
+        "lastModifiedDateTime": {
+          "type": "string"
+        },
+        "lastPublishedDateTime": {
+          "type": "string"
+        },
+        "storageInfo": {
+          "$ref": "#/definitions/ApplicationAzureStorageInfo-Documents"
+        },
+        "crackDocument": {
+          "type": "boolean"
+        },
+        "id": {
+          "format": "uuid",
+          "type": "string",
+          "example": "00000000-0000-0000-0000-000000000000"
+        },
+        "createdDateTime": {
+          "type": "string"
+        },
+        "endpointHitsCount": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "ownerEmail": {
+          "type": "string"
+        },
+        "culture": {
+          "type": "string"
+        },
+        "usageScenario": {
+          "type": "string"
+        },
+        "domain": {
+          "type": "string"
+        },
+        "tokenizerVersion": {
+          "type": "string"
+        },
+        "appType": {
+          "type": "string"
+        },
+        "name": {
+          "description": "Represents the new name of the application",
+          "type": "string"
+        },
+        "description": {
+          "description": "Represents the new description of the application",
+          "type": "string"
+        }
+      }
+    },
+    "ApplicationPublishInformation-Documents": {
+      "required": [
+        "slots"
+      ],
+      "type": "object",
+      "properties": {
+        "slots": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/ApplicationSlotPublishInformation-Documents"
+          }
+        }
+      }
+    },
+    "ApplicationSlotPublishInformation-Documents": {
+      "required": [
+        "endpointUrl",
+        "publishedDateTime"
+      ],
+      "type": "object",
+      "properties": {
+        "endpointRegion": {
+          "type": "string"
+        },
+        "endpointUrl": {
+          "type": "string"
+        },
+        "publishedDateTime": {
+          "type": "string"
+        }
+      }
+    },
+    "GetApplicationsList-Documents": {
+      "required": [
+        "apps"
+      ],
+      "type": "object",
+      "properties": {
+        "apps": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/GetApplication-Documents"
+          }
+        }
+      }
+    },
+    "LongRunningOperationContract": {
+      "description": "Represents the operation info and status.",
+      "required": [
+        "operationId",
+        "status",
+        "createdDateTime",
+        "lastActionDateTime"
+      ],
+      "type": "object",
+      "properties": {
+        "operationId": {
+          "description": "The operation ID.",
+          "type": "string"
+        },
+        "status": {
+          "description": "The operation status.",
+          "type": "string"
+        },
+        "createdDateTime": {
+          "description": "The creation datetime.",
+          "type": "string"
+        },
+        "lastActionDateTime": {
+          "description": "The last action datetime.",
+          "type": "string"
+        }
+      }
+    },
+    "GetPredictionSettings-Documents": {
+      "required": [
+        "classifierThreshold"
+      ],
+      "type": "object",
+      "properties": {
+        "classifierThreshold": {
+          "format": "float",
+          "type": "number"
+        }
+      }
+    },
+    "GetTrainingSettings-Documents": {
+      "required": [
+        "normalizeDiacritics",
+        "normalizePunctuation",
+        "coldStartFeatures"
+      ],
+      "type": "object",
+      "properties": {
+        "normalizeDiacritics": {
+          "type": "boolean"
+        },
+        "normalizePunctuation": {
+          "type": "boolean"
+        },
+        "coldStartFeatures": {
+          "type": "boolean"
+        }
+      }
+    },
+    "GetPublishingAppSlot-Documents": {
+      "required": [
+        "slotName",
+        "endpointUrl",
+        "endpointRegion",
+        "publishedDateTime",
+        "successfulRegions",
+        "failedRegions"
+      ],
+      "type": "object",
+      "properties": {
+        "slotName": {
+          "type": "string"
+        },
+        "endpointUrl": {
+          "type": "string"
+        },
+        "endpointRegion": {
+          "type": "string"
+        },
+        "publishedDateTime": {
+          "type": "string"
+        },
+        "successfulRegions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "failedRegions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "UpdatePredictionSettings-Documents": {
+      "required": [
+        "classifierThreshold"
+      ],
+      "type": "object",
+      "properties": {
+        "classifierThreshold": {
+          "format": "float",
+          "type": "number"
+        }
+      }
+    },
+    "UpdateTrainingSettings-Documents": {
+      "required": [
+        "normalizeDiacritics",
+        "normalizePunctuation",
+        "coldStartFeatures"
+      ],
+      "type": "object",
+      "properties": {
+        "normalizeDiacritics": {
+          "type": "boolean"
+        },
+        "normalizePunctuation": {
+          "type": "boolean"
+        },
+        "coldStartFeatures": {
+          "type": "boolean"
+        }
+      }
+    },
+    "CreateFeature-Documents": {
+      "required": [
+        "featureDetails",
+        "name",
+        "featureType"
+      ],
+      "type": "object",
+      "properties": {
+        "isActive": {
+          "description": "A flag indicating whether the feature is active or not",
+          "type": "boolean"
+        },
+        "featureDetails": {
+          "description": "The feature details",
+          "$ref": "#/definitions/CreateFeaturesDetails-Documents"
+        },
+        "name": {
+          "description": "The feature name",
+          "type": "string"
+        },
+        "featureType": {
+          "description": "The feature type. Possible values: phraselist, proximity",
+          "type": "string"
+        }
+      }
+    },
+    "CreateFeaturesDetails-Documents": {
+      "required": [
+        "phraseListDetails",
+        "proximityDetails",
+        "featureRepositoryDetails"
+      ],
+      "type": "object",
+      "properties": {
+        "phraseListDetails": {
+          "description": "Phrase list feature details",
+          "$ref": "#/definitions/CreatePhraseListFeatureDetails-Documents"
+        },
+        "proximityDetails": {
+          "description": "Proximity feature details",
+          "$ref": "#/definitions/CreateProximityFeatureDetails-Documents"
+        },
+        "featureRepositoryDetails": {
+          "description": "Gets or sets feature repo details",
+          "$ref": "#/definitions/CreateFeatureRepoDetails-Documents"
+        }
+      }
+    },
+    "CreatePhraseListFeatureDetails-Documents": {
+      "required": [
+        "previousSuggestions",
+        "phrases",
+        "options"
+      ],
+      "type": "object",
+      "properties": {
+        "previousSuggestions": {
+          "description": "Previous suggestions",
+          "$ref": "#/definitions/SuggestionObject-Documents"
+        },
+        "phrases": {
+          "description": "The list of phrases",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "options": {
+          "description": "The phraselist options.",
+          "$ref": "#/definitions/PhraseListFeatureOptions"
+        }
+      }
+    },
+    "SuggestionObject-Documents": {
+      "required": [
+        "suggestedEntries",
+        "inputWords",
+        "rankingInfos",
+        "blacks"
+      ],
+      "type": "object",
+      "properties": {
+        "suggestedEntries": {
+          "description": "List of suggested entries",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "inputWords": {
+          "description": "List of input words",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "rankingInfos": {
+          "description": "Dictionary of ranking objects",
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/RankingObject-Documents"
+            }
+          }
+        },
+        "blacks": {
+          "description": "List of blacks entries",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "RankingObject-Documents": {
+      "required": [
+        "rankerName",
+        "rank"
+      ],
+      "type": "object",
+      "properties": {
+        "rankerName": {
+          "description": "The ranker name",
+          "type": "string"
+        },
+        "rank": {
+          "format": "int32",
+          "description": "The rank value",
+          "type": "integer"
+        }
+      }
+    },
+    "CreateProximityFeatureDetails-Documents": {
+      "required": [
+        "pattern"
+      ],
+      "type": "object",
+      "properties": {
+        "pattern": {
+          "description": "The proiximity pattern",
+          "type": "string"
+        }
+      }
+    },
+    "CreateFeatureRepoDetails-Documents": {
+      "required": [
+        "enabledForAllModels",
+        "previousSuggestions",
+        "bluecatFeatureId",
+        "phrases",
+        "options"
+      ],
+      "type": "object",
+      "properties": {
+        "enabledForAllModels": {
+          "description": "Is entity suggestion feature enabled for all models",
+          "type": "boolean"
+        },
+        "previousSuggestions": {
+          "description": "Previous suggestions",
+          "$ref": "#/definitions/SuggestionObject-Documents"
+        },
+        "bluecatFeatureId": {
+          "description": "Feature id for adding feature",
+          "type": "string"
+        },
+        "phrases": {
+          "description": "The list of phrases",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "options": {
+          "description": "The phraselist options.",
+          "$ref": "#/definitions/PhraseListFeatureOptions"
+        }
+      }
+    },
+    "GetFeature-Documents": {
+      "required": [
+        "id",
+        "featureTypeId",
+        "featureDetails",
+        "name",
+        "featureType"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "The feature id",
+          "type": "string"
+        },
+        "featureTypeId": {
+          "format": "int32",
+          "description": "The feature type id",
+          "type": "integer"
+        },
+        "isActive": {
+          "description": "A flag indicating whether the feature is active or not",
+          "type": "boolean"
+        },
+        "featureDetails": {
+          "description": "The feature details",
+          "$ref": "#/definitions/GetFeaturesDetails-Documents"
+        },
+        "name": {
+          "description": "The feature name",
+          "type": "string"
+        },
+        "featureType": {
+          "description": "The feature type. Possible values: phraselist, proximity",
+          "type": "string"
+        }
+      }
+    },
+    "GetFeaturesDetails-Documents": {
+      "required": [
+        "phraseListDetails",
+        "proximityDetails"
+      ],
+      "type": "object",
+      "properties": {
+        "phraseListDetails": {
+          "description": "Phrase list feature details",
+          "$ref": "#/definitions/GetPhraseListFeatureDetails-Documents"
+        },
+        "proximityDetails": {
+          "description": "Proximity feature details",
+          "$ref": "#/definitions/GetProximityFeatureDetails-Documents"
+        }
+      }
+    },
+    "GetPhraseListFeatureDetails-Documents": {
+      "required": [
+        "phrases",
+        "options"
+      ],
+      "type": "object",
+      "properties": {
+        "phrases": {
+          "description": "The list of phrases",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "options": {
+          "description": "The phraselist options.",
+          "$ref": "#/definitions/PhraseListFeatureOptions"
+        }
+      }
+    },
+    "GetProximityFeatureDetails-Documents": {
+      "required": [
+        "pattern"
+      ],
+      "type": "object",
+      "properties": {
+        "pattern": {
+          "description": "The proiximity pattern",
+          "type": "string"
+        }
+      }
+    },
+    "GetFeatures-Documents": {
+      "required": [
+        "features"
+      ],
+      "type": "object",
+      "properties": {
+        "features": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/GetFeature-Documents"
+          }
+        }
+      }
+    },
+    "UpdateFeature-Documents": {
+      "required": [
+        "featureDetails",
+        "name"
+      ],
+      "type": "object",
+      "properties": {
+        "isActive": {
+          "description": "A flag indicating whether the feature is active or not",
+          "type": "boolean"
+        },
+        "featureDetails": {
+          "$ref": "#/definitions/UpdateFeaturesDetails-Documents"
+        },
+        "name": {
+          "description": "The feature name",
+          "type": "string"
+        }
+      }
+    },
+    "UpdateFeaturesDetails-Documents": {
+      "required": [
+        "phraseListDetails",
+        "proximityDetails"
+      ],
+      "type": "object",
+      "properties": {
+        "phraseListDetails": {
+          "description": "Phrase list feature details",
+          "$ref": "#/definitions/UpdatePhraseListFeatureDetails-Documents"
+        },
+        "proximityDetails": {
+          "description": "Proximity feature details",
+          "$ref": "#/definitions/UpdateProximityFeatureDetails-Documents"
+        }
+      }
+    },
+    "UpdatePhraseListFeatureDetails-Documents": {
+      "required": [
+        "previousSuggestions",
+        "phrases",
+        "options"
+      ],
+      "type": "object",
+      "properties": {
+        "previousSuggestions": {
+          "description": "Previous suggestions",
+          "$ref": "#/definitions/SuggestionObject-Documents"
+        },
+        "phrases": {
+          "description": "The list of phrases",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "options": {
+          "description": "The phraselist options.",
+          "$ref": "#/definitions/PhraseListFeatureOptions"
+        }
+      }
+    },
+    "UpdateProximityFeatureDetails-Documents": {
+      "required": [
+        "pattern"
+      ],
+      "type": "object",
+      "properties": {
+        "pattern": {
+          "description": "The proiximity pattern",
+          "type": "string"
+        }
+      }
+    },
+    "CreateModel-Documents": {
+      "required": [
+        "features",
+        "name"
+      ],
+      "type": "object",
+      "properties": {
+        "features": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CreateModelFeatureRelation-Documents"
+          }
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "lastModifiedDateTime": {
+          "type": "string"
+        }
+      }
+    },
+    "CreateModelFeatureRelation-Documents": {
+      "required": [
+        "isActive",
+        "id",
+        "featureType",
+        "featureDetails"
+      ],
+      "type": "object",
+      "properties": {
+        "isActive": {
+          "description": "A flag to indicate whether the model feature relation is active or not/",
+          "type": "boolean"
+        },
+        "id": {
+          "description": "The model feature id",
+          "type": "string"
+        },
+        "featureType": {
+          "description": "The model feature type, possible values: Model and Feature",
+          "type": "string"
+        },
+        "featureDetails": {
+          "description": "The feature details",
+          "$ref": "#/definitions/ModelFeatureRelationInfo-Documents"
+        }
+      }
+    },
+    "ModelFeatureRelationInfo-Documents": {
+      "required": [
+        "featureDetails",
+        "modelDetails"
+      ],
+      "type": "object",
+      "properties": {
+        "featureDetails": {
+          "$ref": "#/definitions/FeatureInfo-Documents"
+        },
+        "modelDetails": {
+          "$ref": "#/definitions/ModelAsFeatureInfo-Documents"
+        }
+      }
+    },
+    "FeatureInfo-Documents": {
+      "required": [
+        "featureId",
+        "featureName",
+        "featureType",
+        "featureTypeId"
+      ],
+      "type": "object",
+      "properties": {
+        "featureId": {
+          "type": "string"
+        },
+        "featureName": {
+          "type": "string"
+        },
+        "featureType": {
+          "type": "string"
+        },
+        "featureTypeId": {
+          "format": "int32",
+          "type": "integer"
+        }
+      }
+    },
+    "ModelAsFeatureInfo-Documents": {
+      "required": [
+        "modelId",
+        "modelName",
+        "modelType",
+        "modelTypeId"
+      ],
+      "type": "object",
+      "properties": {
+        "modelId": {
+          "type": "string"
+        },
+        "modelName": {
+          "type": "string"
+        },
+        "modelType": {
+          "type": "string"
+        },
+        "modelTypeId": {
+          "format": "int32",
+          "type": "integer"
+        }
+      }
+    },
+    "ModelInfo-Documents": {
+      "required": [
+        "id",
+        "typeId",
+        "readableType",
+        "children",
+        "features",
+        "name"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "uuid",
+          "type": "string",
+          "example": "00000000-0000-0000-0000-000000000000"
+        },
+        "typeId": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "readableType": {
+          "type": "string"
+        },
+        "children": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ModelChildInfo-Documents"
+          }
+        },
+        "features": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/GetModelFeatureRelation-Documents"
+          }
+        },
+        "lastTrainDateTime": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "lastModifiedDateTime": {
+          "type": "string"
+        }
+      }
+    },
+    "ModelChildInfo-Documents": {
+      "required": [
+        "id",
+        "typeId",
+        "readableType",
+        "children",
+        "features",
+        "name"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "uuid",
+          "type": "string",
+          "example": "00000000-0000-0000-0000-000000000000"
+        },
+        "typeId": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "readableType": {
+          "type": "string"
+        },
+        "children": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ModelChildInfo-Documents"
+          }
+        },
+        "features": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/GetModelFeatureRelation-Documents"
+          }
+        },
+        "name": {
+          "type": "string"
+        },
+        "lastModifiedDateTime": {
+          "type": "string"
+        }
+      }
+    },
+    "GetModelFeatureRelation-Documents": {
+      "required": [
+        "isActive",
+        "id",
+        "featureType",
+        "featureDetails"
+      ],
+      "type": "object",
+      "properties": {
+        "isActive": {
+          "description": "A flag to indicate whether the model feature relation is active or not/",
+          "type": "boolean"
+        },
+        "id": {
+          "description": "The model feature id",
+          "type": "string"
+        },
+        "featureType": {
+          "description": "The model feature type, possible values: Model and Feature",
+          "type": "string"
+        },
+        "featureDetails": {
+          "description": "The feature details",
+          "$ref": "#/definitions/ModelFeatureRelationInfo-Documents"
+        }
+      }
+    },
+    "CreateExtractorModel-Documents": {
+      "required": [
+        "children",
+        "features",
+        "name"
+      ],
+      "type": "object",
+      "properties": {
+        "children": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CreateChildModel-Documents"
+          }
+        },
+        "features": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CreateModelFeatureRelation-Documents"
+          }
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "lastModifiedDateTime": {
+          "type": "string"
+        }
+      }
+    },
+    "CreateChildModel-Documents": {
+      "required": [
+        "children",
+        "features",
+        "name"
+      ],
+      "type": "object",
+      "properties": {
+        "children": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CreateChildModel-Documents"
+          }
+        },
+        "features": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CreateModelFeatureRelation-Documents"
+          }
+        },
+        "name": {
+          "type": "string"
+        },
+        "lastModifiedDateTime": {
+          "type": "string"
+        }
+      }
+    },
+    "ModelFeatureRelationBasicInfo-Documents": {
+      "required": [
+        "id",
+        "featureType",
+        "featureDetails"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "The model feature id",
+          "type": "string"
+        },
+        "featureType": {
+          "description": "The model feature type, possible values: Model and Feature",
+          "type": "string"
+        },
+        "featureDetails": {
+          "description": "The feature details",
+          "$ref": "#/definitions/ModelFeatureRelationInfo-Documents"
+        }
+      }
+    },
+    "ModelInfosList-Documents": {
+      "required": [
+        "models"
+      ],
+      "type": "object",
+      "properties": {
+        "models": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ModelInfo-Documents"
+          }
+        }
+      }
+    },
+    "GetModelFeatureRelations-Documents": {
+      "required": [
+        "features"
+      ],
+      "type": "object",
+      "properties": {
+        "features": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/GetModelFeatureRelation-Documents"
+          }
+        }
+      }
+    },
+    "UpdateModel-Documents": {
+      "required": [
+        "name"
+      ],
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "lastModifiedDateTime": {
+          "type": "string"
+        }
+      }
+    },
+    "UpdateModelFeatureRelation-Documents": {
+      "required": [
+        "isActive"
+      ],
+      "type": "object",
+      "properties": {
+        "isActive": {
+          "description": "A flag to indicate whether the model feature relation is active or not/",
+          "type": "boolean"
+        }
+      }
+    },
+    "ReplaceModelFeatureRelation-Documents": {
+      "required": [
+        "features",
+        "id",
+        "featureType",
+        "featureDetails"
+      ],
+      "type": "object",
+      "properties": {
+        "features": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CreateModelFeatureRelation-Documents"
+          }
+        },
+        "id": {
+          "description": "The model feature id",
+          "type": "string"
+        },
+        "featureType": {
+          "description": "The model feature type, possible values: Model and Feature",
+          "type": "string"
+        },
+        "featureDetails": {
+          "description": "The feature details",
+          "$ref": "#/definitions/ModelFeatureRelationInfo-Documents"
+        }
+      }
+    },
+    "SamplingWarmup-Documents": {
+      "required": [
+        "samplingSource"
+      ],
+      "type": "object",
+      "properties": {
+        "samplingSource": {
+          "enum": [
+            "UnlabeledData",
+            "QueryLogs"
+          ],
+          "type": "string"
+        }
+      }
+    },
+    "DiversitySamplingOptions-Documents": {
+      "type": "object",
+      "properties": {
+        "maxSampleCount": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "samplingSource": {
+          "enum": [
+            "UnlabeledData",
+            "QueryLogs"
+          ],
+          "type": "string"
+        },
+        "continuationToken": {
+          "type": "string"
+        },
+        "forcePredictedPositive": {
+          "type": "boolean"
+        }
+      }
+    },
+    "ClassificationSamplingResultsObject": {
+      "required": [
+        "continuationToken",
+        "samples"
+      ],
+      "type": "object",
+      "properties": {
+        "continuationToken": {
+          "type": "string"
+        },
+        "samples": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ClassificationPrediction_"
+          }
+        }
+      }
+    },
+    "ClassificationPrediction_": {
+      "required": [
+        "documentId",
+        "predictions"
+      ],
+      "type": "object",
+      "properties": {
+        "documentId": {
+          "type": "string"
+        },
+        "predictions": {
+          "$ref": "#/definitions/ClassificationPrediction_"
+        }
+      }
+    },
+    "ExtractionSamplingResultsObject": {
+      "required": [
+        "continuationToken",
+        "samples"
+      ],
+      "type": "object",
+      "properties": {
+        "continuationToken": {
+          "type": "string"
+        },
+        "samples": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ExtractionPrediction_"
+          }
+        }
+      }
+    },
+    "ExtractionPrediction_": {
+      "required": [
+        "documentId",
+        "predictions"
+      ],
+      "type": "object",
+      "properties": {
+        "documentId": {
+          "type": "string"
+        },
+        "predictions": {
+          "$ref": "#/definitions/ExtractionPrediction_"
+        }
+      }
+    },
+    "SearchamplingRequest_Documents": {
+      "required": [
+        "samplingSource"
+      ],
+      "type": "object",
+      "properties": {
+        "samplingSource": {
+          "enum": [
+            "UnlabeledData",
+            "QueryLogs"
+          ],
+          "type": "string"
+        }
+      }
+    },
+    "SamplingManifestRequest-Documents": {
+      "required": [
+        "samplingSource"
+      ],
+      "type": "object",
+      "properties": {
+        "samplingSource": {
+          "enum": [
+            "UnlabeledData",
+            "QueryLogs"
+          ],
+          "type": "string"
+        }
+      }
+    },
+    "SamplingIndexRequest-Documents": {
+      "required": [
+        "samplingSource"
+      ],
+      "type": "object",
+      "properties": {
+        "samplingSource": {
+          "enum": [
+            "UnlabeledData",
+            "QueryLogs"
+          ],
+          "type": "string"
+        }
+      }
+    },
+    "LongRunningOperationContractHelper": {
+      "type": "object"
+    },
+    "DocumentsCrackingConfig": {
+      "required": [
+        "startOver"
+      ],
+      "type": "object",
+      "properties": {
+        "startOver": {
+          "description": "Recrack all documents",
+          "type": "boolean"
+        }
+      }
+    },
+    "LongRunningOperationContractWithProgress": {
+      "description": "Represents the operation info and status.",
+      "required": [
+        "operationId",
+        "status",
+        "createdDateTime",
+        "lastActionDateTime"
+      ],
+      "type": "object",
+      "properties": {
+        "progressPercent": {
+          "format": "double",
+          "description": "The operation progress percentage.",
+          "type": "number"
+        },
+        "operationId": {
+          "description": "The operation ID.",
+          "type": "string"
+        },
+        "status": {
+          "description": "The operation status.",
+          "type": "string"
+        },
+        "createdDateTime": {
+          "description": "The creation datetime.",
+          "type": "string"
+        },
+        "lastActionDateTime": {
+          "description": "The last action datetime.",
+          "type": "string"
+        }
+      }
+    }
+  },
+  "parameters": {
+    "Endpoint": {
+      "name": "Endpoint",
+      "description": "Supported Cognitive Services endpoints (protocol and hostname, for example: https://westus.api.cognitive.microsoft.com).",
+      "x-ms-parameter-location": "client",
+      "required": true,
+      "type": "string",
+      "in": "path",
+      "x-ms-skip-url-encoding": true
+    }
+  }
+}
