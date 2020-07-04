@@ -18,6 +18,8 @@ Mildly complex or larger swagger files are painful to navigate. Developers must:
 - repeatedly precision click to expand and view related methods and types
 - jump to the swagger JSON to search by text
 
+So I built this little tool to make moving around the swagger easier. I hope you like it.
+
 # Features
 - Support Swagger Open API 2.0 documents
 - Simultaneously inspect methods and types

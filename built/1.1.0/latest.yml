@@ -1,8 +1,8 @@
 version: 1.1.0
 files:
   - url: swago-Setup-1.1.0.exe
-    sha512: 5vdmFGr3CtVQvfHB+SVAx8kP6jnhDwZRAAsGQoLDvRJYL5qBsOoOugsLsUYAUxi9dnfDjvpcO41MxX2lDVLiAw==
-    size: 46677492
+    sha512: jYcvV20FEhiKSi3zwq+H2GrJF9BmjgBVQ1W47ytTu304lcd6/UBmiLweVA3OAjWuCxgkohBe/1WVe9H7EhcEcw==
+    size: 93478647
 path: swago-Setup-1.1.0.exe
-sha512: 5vdmFGr3CtVQvfHB+SVAx8kP6jnhDwZRAAsGQoLDvRJYL5qBsOoOugsLsUYAUxi9dnfDjvpcO41MxX2lDVLiAw==
-releaseDate: '2020-07-03T14:08:06.165Z'
+sha512: jYcvV20FEhiKSi3zwq+H2GrJF9BmjgBVQ1W47ytTu304lcd6/UBmiLweVA3OAjWuCxgkohBe/1WVe9H7EhcEcw==
+releaseDate: '2020-07-04T00:29:38.633Z'
