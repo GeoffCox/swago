@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { Input } from './Input';
 
 const SearchInput = styled(Input)`
-  min-width: 350px; 
+  min-width: 100px; 
 `;
 
 type Props = {

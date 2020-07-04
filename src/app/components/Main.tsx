@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { useRecoilState } from 'recoil';
 import { documentState } from '../models/atoms';
 import { loadSwaggerDocument } from '../models/loader';
-import { MethodExplorer } from './pathExplorer/MethodExplorer';
+import { MethodExplorer } from './methodExplorer/MethodExplorer';
 import { TypeDefinitionExplorer } from './typeDefinitionExplorer/TypeDefinitionExplorer';
 
 // -------------------- Styles  --------------------

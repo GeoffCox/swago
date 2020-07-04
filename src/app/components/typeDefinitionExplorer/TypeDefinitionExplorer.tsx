@@ -113,7 +113,7 @@ export const TypeDefinitionExplorer = (props: Props): JSX.Element => {
 
   return (
     <Root>
-      <Header>Type Definitions</Header>
+      <Header>Types</Header>
       <LeftRightSplit initialLeftGridWidth={'35%'} minLeftPixels={0} minRightPixels={0}>
         <Navigation>
           <CommandBar>

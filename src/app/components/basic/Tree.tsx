@@ -200,9 +200,7 @@ export const Tree = <T extends TreeItem<T>>(props: TreeProps<T>): JSX.Element =>
 
   return (
     <Root {...props} tabIndex={tabIndex} className={className} onKeyDown={onKeyDown}>
-      <div>
-        <List items={flatItems} renderItem={renderListItem} selectedIndex={selectedIndex} onSelected={onListItemSelected} />
-      </div>
+      <List items={flatItems} renderItem={renderListItem} selectedIndex={selectedIndex} onSelected={onListItemSelected} />
     </Root>
   );
 };
