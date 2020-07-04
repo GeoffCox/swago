@@ -1,4 +1,4 @@
-import { App, BrowserWindow, Menu } from "electron";
+import { App, BrowserWindow } from "electron";
 import * as path from "path";
 import * as url from "url";
 
@@ -34,12 +34,8 @@ export default class Main {
 
     if (process.env.NODE_ENV === "development") {
       mainUrl = "http://localhost:3000";
-    } else {
-      Menu.setApplicationMenu(null);
     }
     
-    
-
     Main.mainWindow.loadURL(mainUrl);
 
     Main.mainWindow.on("closed", Main.onClose);
