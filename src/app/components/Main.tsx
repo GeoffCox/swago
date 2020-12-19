@@ -1,12 +1,12 @@
-import * as React from 'react';
-import { FileBrowseButton } from './basic/FileBrowseButton';
-import { TopBottomSplit } from '@geoffcox/react-splitter';
-import styled from 'styled-components';
-import { useRecoilState } from 'recoil';
-import { documentState } from '../models/atoms';
-import { loadSwaggerDocument } from '../models/loader';
-import { MethodExplorer } from './methodExplorer/MethodExplorer';
-import { TypeDefinitionExplorer } from './typeDefinitionExplorer/TypeDefinitionExplorer';
+import * as React from "react";
+import { FileBrowseButton } from "./basic/FileBrowseButton";
+import { Split } from "@geoffcox/react-splitter";
+import styled from "styled-components";
+import { useRecoilState } from "recoil";
+import { documentState } from "../models/atoms";
+import { loadSwaggerDocument } from "../models/loader";
+import { MethodExplorer } from "./methodExplorer/MethodExplorer";
+import { TypeDefinitionExplorer } from "./typeDefinitionExplorer/TypeDefinitionExplorer";
 
 // -------------------- Styles  --------------------
 
@@ -27,7 +27,7 @@ const Layout = styled.div`
   box-sizing: border-box;
   grid-template-columns: 1fr;
   grid-template-rows: auto 1fr 1px;
-  grid-template-areas: 'header' 'content' 'footer';
+  grid-template-areas: "header" "content" "footer";
 `;
 
 const Footer = styled.div`
@@ -66,7 +66,7 @@ export const Main = () => {
     <Root>
       <Layout>
         <CommandBar>
-          <FileBrowseButton id='swagger-file' onChange={onFileChanged} />
+          <FileBrowseButton id="swagger-file" onChange={onFileChanged} />
           <SwaggerFileInfo>
             {document && (
               <>
@@ -76,10 +76,22 @@ export const Main = () => {
             )}
           </SwaggerFileInfo>
         </CommandBar>
-        <TopBottomSplit initialTopGridHeight={'50%'} minTopPixels={45} minBottomPixels={45}>
-          {document && document.methods && <MethodExplorer methods={document.methods} />}
-          {document && document.typeDefinitions && <TypeDefinitionExplorer typeDefinitions={document.typeDefinitions} />}
-        </TopBottomSplit>
+        <Split
+          horizontal
+          resetOnDoubleClick
+          initialPrimarySize={"50%"}
+          minPrimarySize="45px"
+          minSecondarySize="45px"
+        >
+          {document && document.methods && (
+            <MethodExplorer methods={document.methods} />
+          )}
+          {document && document.typeDefinitions && (
+            <TypeDefinitionExplorer
+              typeDefinitions={document.typeDefinitions}
+            />
+          )}
+        </Split>
         <Footer />
       </Layout>
     </Root>
