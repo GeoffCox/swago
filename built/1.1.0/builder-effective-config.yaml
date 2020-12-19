@@ -1,5 +1,3 @@
-directories:
-  output: electron
-  buildResources: build
-appId: geoffcox.swago
-electronVersion: 6.1.9
+version https://git-lfs.github.com/spec/v1
+oid sha256:e2921824c2cf8b6e77299b650956cc47a1b09cb983aa432dd315ff3da2957fc1
+size 106
